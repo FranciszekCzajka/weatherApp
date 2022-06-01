@@ -1,23 +1,20 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, SafeAreaView, View } from "react-native";
-import Home from "./src/Home";
+import { NavigationContainer } from "@react-navigation/native";
+import { StyleSheet } from "react-native";
+import { createStackNavigator } from "@react-navigation/stack";
+import Home from "./screens/Home";
+import CitiesList from "./screens/CitiesList";
+import CityDetails from "./screens/CityDetails";
+
+const Stack = createStackNavigator();
 
 export default function App() {
     return (
-        <SafeAreaView style={styles.container}>
-            <View>
-                <Home />
-                <StatusBar hidden={false} translucent={false} />
-            </View>
-        </SafeAreaView>
+        <NavigationContainer>
+            <Stack.Navigator>
+                <Stack.Screen name="Home" component={Home} />
+                <Stack.Screen name="CitiesList" component={CitiesList} />
+                <Stack.Screen name="CityDetails" component={CityDetails} />
+            </Stack.Navigator>
+        </NavigationContainer>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#fff",
-        alignItems: "center",
-        justifyContent: "center",
-    },
-});

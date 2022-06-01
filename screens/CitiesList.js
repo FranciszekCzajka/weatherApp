@@ -1,12 +1,15 @@
 import { useState, useCallback, useEffect } from "react";
-import { Text, View, FlatList } from "react-native";
-import City from "./City";
+import { FlatList } from "react-native";
+import City from "../src/City";
 
-export default function Home() {
+export default function CitiesList({ route }) {
+    const { name } = route.params;
     const [cityWithID, setCityWithID] = useState([]);
 
     const API_KEY = "15cSWAcH01Gud5S6AuOAOCAFXPOealGj";
-    const REQUEST = `http://dataservice.accuweather.com/locations/v1/cities/search?apikey=${API_KEY}&q=Poznań&language=pl-pl&details=false`;
+    const REQUEST = `http://dataservice.accuweather.com/locations/v1/cities/search?apikey=${API_KEY}&q=${name}&language=pl-pl&details=false`;
+
+    console.log(name);
 
     const fetchCity = useCallback(async () => {
         const result = await fetch(REQUEST);
@@ -31,14 +34,12 @@ export default function Home() {
     }, []);
 
     return (
-        <View>
-            <FlatList
-                data={cityWithID}
-                keyExtractor={(item) => item.cityKey}
-                renderItem={({ item }) => (
-                    <City name={`${item.cityName}, ${item.localizedName}`} />
-                )}
-            />
-        </View>
+        <FlatList
+            data={cityWithID}
+            keyExtractor={(item) => item.cityKey}
+            renderItem={({ item }) => (
+                <City name={`${item.cityName}, ${item.localizedName}`} />
+            )}
+        ></FlatList>
     );
 }
