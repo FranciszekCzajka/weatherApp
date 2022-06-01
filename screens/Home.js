@@ -17,7 +17,7 @@ import City from "../src/City";
 export default function Home({ navigation }) {
     const [city, setCity] = useState([]);
     const [cityWithID, setCityWithID] = useState([]);
-    const API_KEY = "ocFtNKypsNiEXW9IMkofjF1dby1hrGLd";
+    const API_KEY = "Vu53RS3segVGuuEOrrjOVDX4SAuPsxTI";
     const REQUEST = `http://dataservice.accuweather.com/locations/v1/cities/search?apikey=${API_KEY}&q=${city}&language=pl-pl&details=false`;
 
     async function requestCities() {
@@ -41,19 +41,25 @@ export default function Home({ navigation }) {
     return (
         <SafeAreaView style={styles.container}>
             <View>
-                <Text>Enter city</Text>
+                <Text style={styles.headline}>Wpisz miasto</Text>
                 <TextInput
                     style={styles.input}
                     keyboardType="default"
                     onChangeText={setCity}
                 />
-                <Button title="Press me" onPress={() => requestCities()} />
+                <Button
+                    color="#E5625E"
+                    title="WYSZUKAJ MIASTO"
+                    onPress={() => requestCities()}
+                />
             </View>
             <FlatList
+                style={styles.list}
                 data={cityWithID}
                 keyExtractor={(item) => item.cityKey}
                 renderItem={({ item }) => (
                     <TouchableOpacity
+                        style={styles.listElements}
                         onPress={() => {
                             navigation.navigate("CityDetails", {
                                 key: item.cityKey,
@@ -75,14 +81,29 @@ export default function Home({ navigation }) {
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
         padding: 16,
-        backgroundColor: "#B2F7EF",
+        backgroundColor: "#A3CEF1",
+    },
+    headline: {
+        fontSize: 32,
     },
     input: {
         height: 40,
-        width: 140,
         marginVertical: 12,
-        borderWidth: 1,
         padding: 10,
+        backgroundColor: "#BADCF3",
+        borderRadius: 8,
+    },
+    list: {
+        marginVertical: 12,
+    },
+    listElements: {
+        backgroundColor: "#BADCF3",
+        marginVertical: 6,
+        padding: 12,
+        borderRadius: 8,
     },
 });

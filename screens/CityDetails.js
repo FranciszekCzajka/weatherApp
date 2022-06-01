@@ -18,10 +18,14 @@ export default function CityDetails({ route }) {
     const [thirdAfterTodayTempMax, setThirdAfterTodayTempMax] = useState("");
     const [fourthAfterTodayTempMin, setFourthAfterTodayTempMin] = useState("");
     const [fourthAfterTodayTempMax, setFourthAfterTodayTempMax] = useState("");
+    const [firstDateAfterToday, setFirstDateAfterToday] = useState("");
+    const [secondDateAfterToday, setSecondDateAfterToday] = useState("");
+    const [thirdDateAfterToday, setThirdDateAfterToday] = useState("");
+    const [fourthDateAfterToday, setFourthDateAfterToday] = useState("");
 
     const { key, name, location } = route.params;
 
-    const API_KEY = "ocFtNKypsNiEXW9IMkofjF1dby1hrGLd";
+    const API_KEY = "Vu53RS3segVGuuEOrrjOVDX4SAuPsxTI";
     const REQUEST_CURRENT_DATA = `http://dataservice.accuweather.com/currentconditions/v1/${key}?apikey=${API_KEY}&language=pl-pl`;
     const REQUEST_TODAY_DATA = `http://dataservice.accuweather.com/forecasts/v1/daily/1day/${key}?apikey=${API_KEY}&language=pl-pl&details=true&metric=true`;
     const REQUEST_FIVE_DATA = `http://dataservice.accuweather.com/forecasts/v1/daily/5day/${key}?apikey=${API_KEY}&language=pl-pl&details=false&metric=true`;
@@ -98,6 +102,18 @@ export default function CityDetails({ route }) {
             setFourthAfterTodayTempMax(
                 response.DailyForecasts[4].Temperature.Maximum.Value
             );
+            const firstDay = response.DailyForecasts[1].Date;
+            const firstDayDate = firstDay.split("T");
+            setFirstDateAfterToday(firstDayDate[0]);
+            const secondDay = response.DailyForecasts[2].Date;
+            const secondDayDate = secondDay.split("T");
+            setSecondDateAfterToday(secondDayDate[0]);
+            const thirdDay = response.DailyForecasts[3].Date;
+            const thirdDayDate = firstDay.split("T");
+            setThirdDateAfterToday(firstDayDate[0]);
+            const fourthDay = response.DailyForecasts[4].Date;
+            const fourthDayDate = firstDay.split("T");
+            setFourthDateAfterToday(firstDayDate[0]);
         }
     }, []);
 
@@ -108,39 +124,108 @@ export default function CityDetails({ route }) {
     }, []);
 
     return (
-        <SafeAreaView>
-            <View stle={styles.flex}>
-                <Text>
-                    {name}, {location}
-                </Text>
+        <SafeAreaView style={styles.container}>
+            <View style={styles.flex_1}>
+                <View style={styles.flexCenter}>
+                    <View>
+                        <Text style={styles.headline}>
+                            {name}, {location}
+                        </Text>
+                    </View>
+                </View>
+                <View style={styles.flexCenter}>
+                    <Text style={styles.temp}>{currentTemp} C°</Text>
+                    <Text style={styles.textNormal}>{weatherCondition}</Text>
+                </View>
             </View>
-            <View>
-                <Text>
-                    {currentTemp}, {weatherCondition}
-                </Text>
+            <View style={[styles.paddingTop_64, styles.flex_1]}>
+                <View style={styles.flexDirectionRow}>
+                    <View style={[styles.flexCenter, styles.width_50]}>
+                        <Text>Najniższa temperatura</Text>
+                        <Text>{todayTempMin} C°</Text>
+                    </View>
+                    <View style={[styles.flexCenter, styles.width_50]}>
+                        <Text>Najwyższa temperaura</Text>
+                        <Text>{todayTempMax} C°</Text>
+                    </View>
+                </View>
+                <View
+                    style={[
+                        styles.flexCenter,
+                        styles.flexDirectionRow,
+                        styles.marginTop_24,
+                    ]}
+                >
+                    <View style={[styles.flexCenter, styles.width_50]}>
+                        <Text>Prędkość wiatru</Text>
+                        <Text>{windSpeed} km/h</Text>
+                    </View>
+                    <View style={[styles.flexCenter, styles.width_50]}>
+                        <Text>Wschód słońca: {sunRise}</Text>
+                        <Text>Zachód słońca: {sunSet}</Text>
+                    </View>
+                </View>
             </View>
-            <View>
-                <Text>{windSpeed}</Text>
-                <Text>
-                    {todayTempMin}, {todayTempMax}
-                </Text>
-                <Text>
-                    {sunRise}, {sunSet}
-                </Text>
-            </View>
-            <View>
-                <Text>
-                    {firstAfterTodayTempMin}, {firstAfterTodayTempMax}
-                </Text>
-                <Text>
-                    {secondAfterTodayTempMin}, {secondAfterTodayTempMax}
-                </Text>
-                <Text>
-                    {thirdAfterTodayTempMin}, {thirdAfterTodayTempMax}
-                </Text>
-                <Text>
-                    {fourthAfterTodayTempMin}, {fourthAfterTodayTempMax}
-                </Text>
+            <View
+                style={[
+                    styles.flexDirectionRow,
+                    styles.width_100,
+                    styles.spaceAround,
+                    styles.flex_1,
+                ]}
+            >
+                <View>
+                    <View
+                        style={[
+                            styles.margin_8,
+                            styles.padding_8,
+                            styles.lighterBackground,
+                            styles.flexCenter,
+                        ]}
+                    >
+                        <Text>Min. temp: {firstAfterTodayTempMin}</Text>
+                        <Text>Max. temp: {firstAfterTodayTempMax}</Text>
+                        <Text>{firstDateAfterToday}</Text>
+                    </View>
+                    <View
+                        style={[
+                            styles.margin_8,
+                            styles.padding_8,
+                            styles.lighterBackground,
+                            styles.flexCenter,
+                        ]}
+                    >
+                        <Text>Min. temp: {secondAfterTodayTempMin}</Text>
+                        <Text>Max. temp: {secondAfterTodayTempMax}</Text>
+                        <Text>{secondDateAfterToday}</Text>
+                    </View>
+                </View>
+                <View>
+                    <View
+                        style={[
+                            styles.margin_8,
+                            styles.padding_8,
+                            styles.lighterBackground,
+                            styles.flexCenter,
+                        ]}
+                    >
+                        <Text>Min. temp; {thirdAfterTodayTempMin}</Text>
+                        <Text>Max. temp; {thirdAfterTodayTempMax}</Text>
+                        <Text>{thirdDateAfterToday}</Text>
+                    </View>
+                    <View
+                        style={[
+                            styles.margin_8,
+                            styles.padding_8,
+                            styles.lighterBackground,
+                            styles.flexCenter,
+                        ]}
+                    >
+                        <Text>Min. temp: {fourthAfterTodayTempMin}</Text>
+                        <Text>Max. temp: {fourthAfterTodayTempMax}</Text>
+                        <Text>{fourthDateAfterToday}</Text>
+                    </View>
+                </View>
             </View>
             <StatusBar hidden={false} translucent={false} />
         </SafeAreaView>
@@ -148,7 +233,60 @@ export default function CityDetails({ route }) {
 }
 
 const styles = StyleSheet.create({
-    flex: {
+    container: {
         flex: 1,
+        padding: 16,
+        backgroundColor: "#A3CEF1",
+    },
+    flex_1: {
+        flex: 1,
+    },
+    flexCenter: {
+        alignItems: "center",
+    },
+    width_50: {
+        width: "50%",
+    },
+    width_100: {
+        width: "100%",
+    },
+    height_33: {
+        height: "33%",
+    },
+    flexDirectionRow: {
+        flexDirection: "row",
+    },
+    spaceAround: {
+        justifyContent: "space-around",
+    },
+    headline: {
+        fontSize: 36,
+    },
+    textNormal: {
+        fontSize: 22,
+    },
+    temp: {
+        marginTop: 16,
+        marginBottom: 8,
+        fontSize: 64,
+    },
+    marginTop_24: {
+        marginTop: 24,
+    },
+    paddingTop_64: {
+        marginTop: 64,
+    },
+    margin_16: {
+        margin: 16,
+    },
+    margin_8: {
+        margin: 8,
+    },
+    padding_8: {
+        padding: 8,
+    },
+    lighterBackground: {
+        backgroundColor: "#CBE5F6",
+        borderRadius: 8,
     },
 });
