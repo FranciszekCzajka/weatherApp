@@ -10,6 +10,7 @@ export default function CityDetails({ route }) {
     const [todayTempMax, setTodayTempMax] = useState("");
     const [sunRise, setSunRise] = useState("");
     const [sunSet, setSunSet] = useState("");
+    const [isDay, setIsDay] = useState("");
     const [firstAfterTodayTempMin, setFirstAfterTodayTempMin] = useState("");
     const [firstAfterTodayTempMax, setFirstAfterTodayTempMax] = useState("");
     const [secondAfterTodayTempMin, setSecondAfterTodayTempMin] = useState("");
@@ -37,6 +38,7 @@ export default function CityDetails({ route }) {
             const response = await result.json();
             setCurrentTemp(response[0].Temperature.Metric.Value);
             setWeatherCondition(response[0].WeatherText);
+            setIsDay(response[0].IsDayTime);
         }
     }, []);
 
@@ -124,7 +126,9 @@ export default function CityDetails({ route }) {
     }, []);
 
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView
+            style={isDay ? styles.backgroundDay : styles.backgroundNight}
+        >
             <View style={styles.flex_1}>
                 <View style={styles.flexCenter}>
                     <View>
@@ -236,7 +240,16 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 16,
+    },
+    backgroundNight: {
+        flex: 1,
+        padding: 16,
         backgroundColor: "#A3CEF1",
+    },
+    backgroundDay: {
+        flex: 1,
+        padding: 16,
+        backgroundColor: "#F4EEA9",
     },
     flex_1: {
         flex: 1,
