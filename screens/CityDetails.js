@@ -111,11 +111,11 @@ export default function CityDetails({ route }) {
             const secondDayDate = secondDay.split("T");
             setSecondDateAfterToday(secondDayDate[0]);
             const thirdDay = response.DailyForecasts[3].Date;
-            const thirdDayDate = firstDay.split("T");
-            setThirdDateAfterToday(firstDayDate[0]);
+            const thirdDayDate = thirdDay.split("T");
+            setThirdDateAfterToday(thirdDayDate[0]);
             const fourthDay = response.DailyForecasts[4].Date;
-            const fourthDayDate = firstDay.split("T");
-            setFourthDateAfterToday(firstDayDate[0]);
+            const fourthDayDate = fourthDay.split("T");
+            setFourthDateAfterToday(fourthDayDate[0]);
         }
     }, []);
 
